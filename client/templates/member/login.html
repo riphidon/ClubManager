@@ -1,0 +1,21 @@
+{{ define "login"}}
+
+{{ template "header" . }}
+{{if ne .UserErr "" }}
+		<div class="error">{{.UserErr}}</div>
+	{{ end }}
+<main>
+	<div class="login">
+		<form action="/login?do=login" method="POST">
+			<label for="identifier">Email</label>
+			<input name="identifier" type="text" required>
+
+			<label for="password">Mot de Passe</label>
+			<input name="password" type="password" required>
+
+			<button type="submit">Se connecter</button>
+		</form>
+	</div>
+{{ template "footer" . }}
+
+{{ end }}

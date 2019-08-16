@@ -1,0 +1,19 @@
+{{ define "profiles"}}
+
+{{ template "adminHeader" . }}
+	<div class="memberProfile">
+		<h1>PROFILES</h1>
+		<div class="searchSelector">
+			<form action="/admin/profiles?do=search" method="POST">
+				<label for="userSelector">Select user by</label>
+				<select name="userSelector">
+					<option value="name">Name</option>
+					<option value="rank">Rank</option>
+				</select>
+				<input name="userSelector" type="text">
+			</form>
+		</div>
+	</div>
+{{ template "adminFooter" . }}
+
+{{ end }}

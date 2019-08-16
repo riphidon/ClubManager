@@ -1,0 +1,41 @@
+{{ define "profile"}}
+
+{{ template "header" . }}
+	{{ $member := .User}}
+	<div class="profile">
+		<table>
+			<thead>
+				<tr><th colspan="2"> {{ $member.Firstname }} {{ $member.Name }} </th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="belt">Ceinture: </td>
+					<td class="beltColor">{{ $member.Rank }}</td>
+				</tr>
+				<tr>
+					<td class="rankObtained">Année d'obtention: </td>
+					<td class="rankObtained">{{ $member.RankObtained}}</td>
+				</tr>
+				<tr>
+					<td class="licence">Numéro de licence</td>
+					<td class="licenceNumber">{{ $member.Licence }}</td>
+				</tr>
+				<tr>
+					<td class="cert">Certificat Médical</td>
+					{{ if eq $member.MedCert false}}
+					<td class="certBool">Non fourni</td>
+					{{ else }}
+					<td class="certBool">Fourni</td>
+					{{ end }}
+				</tr>
+				<tr>
+					<td class="inscription">Année d'inscription</td>
+					<td class="inscriptionYear">{{ $member.EntryDate }}</td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="/profile/user?do=edit&q={{$member.UserID}}">Edit Profile</a>
+	</div>
+{{ template "footer" . }}
+
+{{ end }}
