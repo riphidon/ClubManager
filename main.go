@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -21,7 +22,7 @@ func main() {
 	srv := server.New(mux, addr)
 
 	server.SetupRoutes(mux)
-
+	fmt.Println(db.AllUsers())
 	err = srv.ListenAndServe()
 	log.Fatal(err)
 }

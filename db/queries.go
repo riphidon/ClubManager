@@ -216,7 +216,7 @@ func TaskByAdmin(t models.Task) error {
 
 //Delete
 
-//Search
+//---SEARCH---
 func UserExists(email string) (bool, error) {
 	var exists bool
 	query := ` SELECT EXISTS 
@@ -228,6 +228,31 @@ func UserExists(email string) (bool, error) {
 	}
 	fmt.Printf("userExists: %v\n", exists)
 	return exists, nil
+}
+
+func AllUsers() ([]*models.ClubUser, error) {
+	query := `
+		SELECT user_id, name, firstname, rank, licence, med_cert
+		FROM club_user`
+	rows, err := DB.Query(query)
+	if err != nil {
+		return nil, errors.Wrap(err, "can't query Database")
+	}
+	defer rows.Close()
+	userList := make([]*models.ClubUser, 0)
+	for rows.Next() {
+		user := new(models.ClubUser)
+		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert)
+		if err != nil {
+			return nil, errors.Wrap(err, "can't perform scan")
+		}
+		userList = append(userList, user)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, errors.Wrap(err, "Additional errors while scanning database rows")
+	}
+	return userList, nil
 }
 
 func Role(email string) (string, error) {

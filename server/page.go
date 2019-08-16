@@ -14,6 +14,7 @@ type Page struct {
 	BeltList []string
 	User     models.ClubUser
 	UserErr  string
+	UserList []*models.ClubUser
 }
 
 func ParseTemplate(path string) *template.Template {

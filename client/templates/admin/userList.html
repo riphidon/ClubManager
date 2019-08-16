@@ -1,0 +1,10 @@
+{{ define "userList"}}
+	
+
+	<div class="userLIst">List</div>
+	{{ range $list := .UserList}}
+		<div>{{ $list.Name}}</div>
+	{{ end }}
+
+
+{{ end }}

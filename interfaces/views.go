@@ -35,3 +35,11 @@ func ViewUserData(r *http.Request, data string, group string) models.ClubUser {
 	return *userData
 
 }
+
+func ListAllUsers() []*models.ClubUser {
+	userList, err := db.AllUsers()
+	if err != nil {
+		fmt.Printf("error occured in ListAllUser: %v\n", err)
+	}
+	return userList
+}

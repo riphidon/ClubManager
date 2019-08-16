@@ -6,14 +6,15 @@
 		<div class="searchSelector">
 			<form action="/admin/profiles?do=search" method="POST">
 				<label for="userSelector">Select user by</label>
-				<select name="userSelector">
-					<option value="name">Name</option>
-					<option value="rank">Rank</option>
-				</select>
-				<input name="userSelector" type="text">
+				<input name="userSelector" type="radio" value="Name">Name
+				<input name="userSelector" type="radio" value="Rank">Rank
+				<button type="submit" >Search</button>
 			</form>
 		</div>
 	</div>
+	{{ range $list := .UserList}}
+		<div>{{ $list.Name}} {{ $list.Firstname }} {{ $list.Rank }} {{ $list.Licence }} {{ if eq $list.MedCert false }}Non Fourni {{ else }} Fourni {{ end }}</div>
+	{{ end }}
 {{ template "adminFooter" . }}
 
 {{ end }}
