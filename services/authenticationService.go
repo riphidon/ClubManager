@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/riphidon/clubmanager/db"
-	"github.com/riphidon/clubmanager/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -48,14 +47,12 @@ func RedirectByGroup(email string, w http.ResponseWriter, r *http.Request) error
 	if err != nil {
 		return err
 	}
-	ID := cred.ID
+
 	group := cred.Group
 	if group == "users" {
-		hint := utils.SetSession(w, "/", "arh_?na+cu:", ID)
-		http.Redirect(w, r, "/profile"+hint, http.StatusFound)
+		http.Redirect(w, r, "/profile", http.StatusFound)
 		return nil
 	}
-	hint := utils.SetSession(w, "/", "arh_mini?stry+am:", ID)
-	http.Redirect(w, r, "/admin"+hint, http.StatusFound)
+	http.Redirect(w, r, "/admin", http.StatusFound)
 	return nil
 }

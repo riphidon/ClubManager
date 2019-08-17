@@ -43,3 +43,20 @@ func ListAllUsers() []*models.ClubUser {
 	}
 	return userList
 }
+
+func FindUserByName(name string) []*models.ClubUser {
+	users, err := db.UsersByName(name)
+	if err != nil {
+		fmt.Printf("error occured: %v\n", err)
+	}
+	return users
+}
+
+func FindUserByRank(belt string) []*models.ClubUser {
+	users, err := db.UsersByRank(belt)
+	if err != nil {
+		fmt.Printf("error occured: %v\n", err)
+	}
+	return users
+
+}

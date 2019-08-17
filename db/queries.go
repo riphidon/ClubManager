@@ -255,6 +255,58 @@ func AllUsers() ([]*models.ClubUser, error) {
 	return userList, nil
 }
 
+func UsersByRank(belt string) ([]*models.ClubUser, error) {
+	query := `
+		SELECT user_id, name, firstname, rank, licence, med_cert
+		FROM club_user
+		WHERE rank = $1`
+	rows, err := DB.Query(query, belt)
+	if err != nil {
+		return nil, errors.Wrap(err, "can't query Database")
+	}
+	defer rows.Close()
+	userList := make([]*models.ClubUser, 0)
+	for rows.Next() {
+		user := new(models.ClubUser)
+		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert)
+		if err != nil {
+			return nil, errors.Wrap(err, "can't perform scan")
+		}
+		userList = append(userList, user)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, errors.Wrap(err, "Additional errors while scanning database rows")
+	}
+	return userList, nil
+}
+
+func UsersByName(name string) ([]*models.ClubUser, error) {
+	query := `
+		SELECT user_id, name, firstname, rank, licence, med_cert
+		FROM club_user
+		WHERE name = $1`
+	rows, err := DB.Query(query, name)
+	if err != nil {
+		return nil, errors.Wrap(err, "can't query Database")
+	}
+	defer rows.Close()
+	userList := make([]*models.ClubUser, 0)
+	for rows.Next() {
+		user := new(models.ClubUser)
+		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert)
+		if err != nil {
+			return nil, errors.Wrap(err, "can't perform scan")
+		}
+		userList = append(userList, user)
+	}
+	err = rows.Err()
+	if err != nil {
+		return nil, errors.Wrap(err, "Additional errors while scanning database rows")
+	}
+	return userList, nil
+}
+
 func Role(email string) (string, error) {
 	group := ""
 	query := ` SELECT role

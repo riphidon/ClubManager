@@ -46,16 +46,39 @@ func switchCaseProfiles(w http.ResponseWriter, r *http.Request) error {
 	case "search":
 		r.ParseForm()
 		search := r.FormValue("userSelector")
-		if search == "Name" {
-			list := interfaces.ListAllUsers()
-			fmt.Printf("list: %v\n", list)
-			err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list})
-			if err != nil {
-				return err
-			}
+		param := r.FormValue("inputValue")
+		fmt.Printf("input: %v\n", param)
+		if search != "all" {
+			SearchUsers(param, w)
+			return nil
 		}
+		list := interfaces.ListAllUsers()
+		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list})
+		if err != nil {
+			return err
+		}
+		return nil
 	default:
 		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{Title: "profiles"})
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+}
+
+func SearchUsers(param string, w http.ResponseWriter) error {
+	switch param {
+	case "name":
+		listByName := interfaces.FindUserByName(param)
+		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: listByName})
+		if err != nil {
+			return err
+		}
+		return nil
+	case "rank":
+		listByRank := interfaces.FindUserByName(param)
+		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: listByRank})
 		if err != nil {
 			return err
 		}

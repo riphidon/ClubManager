@@ -115,8 +115,7 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) error {
 			if err := interfaces.Edit(w, r, user); err != nil {
 				return err
 			}
-			hint := utils.SetSession(w, "/", "arh_?na+cu:", member)
-			http.Redirect(w, r, "/profile"+hint, http.StatusFound)
+			http.Redirect(w, r, "/profile", http.StatusFound)
 		}
 	default:
 		id := utils.CatchURLData(r, "q")
