@@ -1,7 +1,6 @@
 package services
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/riphidon/clubmanager/db"
@@ -51,16 +50,5 @@ func AddNewUser(u models.ClubUser) error {
 	if err := db.StoreNewUser(u); err != nil {
 		return err
 	}
-	return nil
-}
-
-func RedirectOnRegister(email string, w http.ResponseWriter, r *http.Request) error {
-	// cred, err := UserCredentials(email)
-	// if err != nil {
-	// 	return err
-	// }
-	// ID := cred.ID
-	// hint := utils.SetSession(w, "/", "arh_?na+cu:", ID)
-	http.Redirect(w, r, "/profile", http.StatusFound)
 	return nil
 }

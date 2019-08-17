@@ -6,20 +6,20 @@ import (
 
 	"github.com/riphidon/clubmanager/config"
 	"github.com/riphidon/clubmanager/interfaces"
+	"github.com/riphidon/clubmanager/models"
 	"github.com/riphidon/clubmanager/utils"
 )
 
 //Admin SECTION
 func AdminSection(w http.ResponseWriter, r *http.Request) error {
 	var err error
-	id := utils.CatchURLData(r, "q")
+	id := Id
 	userData := interfaces.ViewUserData(r, id, "admin")
 	adminPage := utils.SplitPath(r.URL.Path, 1)
 	switch adminPage {
 	case "profiles":
-		err = switchCaseProfiles(w, r)
+		err = switchCaseProfiles(w, r, userData)
 	case "tasks":
-		id := utils.CatchURLData(r, "q")
 		userData := interfaces.ViewUserData(r, id, "admin")
 		err := RenderPage(w, config.Data.AdminPath, "tasks", &Page{Title: "tasks", User: userData})
 		if err != nil {
@@ -40,7 +40,7 @@ func AdminSection(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-func switchCaseProfiles(w http.ResponseWriter, r *http.Request) error {
+func switchCaseProfiles(w http.ResponseWriter, r *http.Request, userData models.ClubUser) error {
 	q := r.URL.Query()
 	switch q.Get("do") {
 	case "search":
@@ -53,13 +53,13 @@ func switchCaseProfiles(w http.ResponseWriter, r *http.Request) error {
 			return nil
 		}
 		list := interfaces.ListAllUsers()
-		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list})
+		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list, User: userData})
 		if err != nil {
 			return err
 		}
 		return nil
 	default:
-		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{Title: "profiles"})
+		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{Title: "profiles", User: userData})
 		if err != nil {
 			return err
 		}

@@ -47,6 +47,7 @@ func (fn AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Printf("logged %v requested %v", r.RemoteAddr, r.URL)
 	cookie, errCookie := r.Cookie("session")
 	if errCookie != nil {
+		fmt.Printf("Errcookie: %v\n", errCookie)
 		return
 	}
 	fmt.Printf("cookie value is : %v\n", cookie.Value)
@@ -56,12 +57,13 @@ func (fn AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	Id = value
 	fmt.Printf("value is : %v\n", value)
-	if errCookie != nil || utils.CheckCookie(cookie, value) == false {
-		fmt.Printf("error checkCookie: %v\n, %v", errCookie, utils.CheckCookie(cookie, cookie.Value))
+	if errCookie != nil || utils.CheckCookie(cookie, cookie.Value) == false {
+		fmt.Printf("error checkCookie: %v\n, %v\n", errCookie, utils.CheckCookie(cookie, cookie.Value))
 		http.Redirect(w, r, "/login", http.StatusFound)
 		return
 	}
-	fmt.Printf("checkSession : %v\n", utils.CheckCookie(cookie, value))
+
+	fmt.Printf("checkSession : %v\n", utils.CheckCookie(cookie, cookie.Value))
 	err = fn(w, r)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("error : %+v\n", err), http.StatusInternalServerError)

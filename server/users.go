@@ -39,7 +39,7 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) error {
 			}
 			return nil
 		}
-		services.RedirectOnRegister(email, w, r)
+		services.RedirectByGroup(email, w, r)
 	}
 	err := RenderPage(w, config.Data.UserPath, "register", &Page{Title: "register", BeltList: beltList, UserErr: userErr})
 	if err != nil {
@@ -76,6 +76,7 @@ func LoginPage(w http.ResponseWriter, r *http.Request) error {
 			}
 			fmt.Println("in login berfore RBG")
 			if err := services.RedirectByGroup(email, w, r); err != nil {
+				fmt.Printf("err: %v", err)
 				return err
 			}
 			return nil
