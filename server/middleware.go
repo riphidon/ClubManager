@@ -18,32 +18,21 @@ import (
 // 		next(w, r)
 // 	}
 // }
+
 // func NewHandler(log *log.Logger) *Handler {
 // 	return &Handler{
 // 		logger: log,
 // 	}
 // }
 
-// func (fn AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-// 	log.Printf("logged %v requested %v", r.RemoteAddr, r.URL)
-// 	cookie, errCookie := r.Cookie("session")
-// 	if errCookie != nil || utils.CheckSessionCookie(cookie) == false {
-// 		http.Redirect(w, r, "/login", http.StatusFound)
-// 		return
-// 	}
-// 	fmt.Printf("checkSession : %v\n", utils.CheckSessionCookie(cookie))
-// 	err := fn(w, r)
-// 	if err != nil {
-// 		http.Error(w, fmt.Sprintf("error : %+v\n", err), http.StatusInternalServerError)
-// 	}
+// type AuthHandler struct {
+// 	Fn func(w http.ResponseWriter, r *http.Request) error
+// 	Id string
 // }
 
-// type auth struct {
-// 	fn func(w http.ResponseWriter, r *http.Request)
-// }
+var Id string
 
 type AppHandler func(w http.ResponseWriter, r *http.Request) error
-
 type AuthHandler func(w http.ResponseWriter, r *http.Request) error
 
 func (fn AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +45,6 @@ func (fn AppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (fn AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	log.Printf("logged %v requested %v", r.RemoteAddr, r.URL)
-	utils.SetCookieHandler(w, r)
 	cookie, errCookie := r.Cookie("session")
 	if errCookie != nil {
 		return
@@ -66,8 +54,10 @@ func (fn AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Printf("error reading cookie value: %v\n", err)
 	}
+	Id = value
 	fmt.Printf("value is : %v\n", value)
 	if errCookie != nil || utils.CheckCookie(cookie, value) == false {
+		fmt.Printf("error checkCookie: %v\n, %v", errCookie, utils.CheckCookie(cookie, cookie.Value))
 		http.Redirect(w, r, "/login", http.StatusFound)
 		return
 	}

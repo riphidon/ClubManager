@@ -58,6 +58,7 @@ func LoginPage(w http.ResponseWriter, r *http.Request) error {
 		return nil
 	case "login":
 		if r.Method == "POST" {
+			fmt.Println("inside login")
 			r.ParseForm()
 			email := r.FormValue("identifier")
 			code, err := interfaces.Login(w, r, email)
@@ -73,6 +74,7 @@ func LoginPage(w http.ResponseWriter, r *http.Request) error {
 				}
 				return nil
 			}
+			fmt.Println("in login berfore RBG")
 			if err := services.RedirectByGroup(email, w, r); err != nil {
 				return err
 			}
@@ -118,7 +120,8 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) error {
 			http.Redirect(w, r, "/profile", http.StatusFound)
 		}
 	default:
-		id := utils.CatchURLData(r, "q")
+		id := Id
+		fmt.Printf("id value in ProfilePage: %v\n", id)
 		userData := interfaces.ViewUserData(r, id, "user")
 		err = RenderPage(w, config.Data.UserPath, "profile", &Page{Title: "profile", User: userData})
 		if err != nil {

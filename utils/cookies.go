@@ -38,9 +38,9 @@ func EndSession(w http.ResponseWriter, r *http.Request, path string) {
 // 	return p
 // }
 
-func SetCookieHandler(w http.ResponseWriter, r *http.Request) {
+func SetCookieHandler(w http.ResponseWriter, r *http.Request, id string) {
 	value := map[string]string{
-		"id": "4",
+		"id": id,
 	}
 	encoded, err := s.Encode("session", value)
 	if err == nil {
@@ -70,6 +70,7 @@ func ReadCookieHandler(w http.ResponseWriter, r *http.Request) (string, error) {
 }
 
 func CheckCookie(c *http.Cookie, value string) bool {
+	fmt.Printf("c.Name: %v, c.Value: %v, value :%v", c.Name, c.Value, value)
 	if c.Name == "session" && c.Value == value {
 		return true
 	}

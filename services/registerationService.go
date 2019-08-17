@@ -6,7 +6,6 @@ import (
 
 	"github.com/riphidon/clubmanager/db"
 	"github.com/riphidon/clubmanager/models"
-	"github.com/riphidon/clubmanager/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -56,12 +55,12 @@ func AddNewUser(u models.ClubUser) error {
 }
 
 func RedirectOnRegister(email string, w http.ResponseWriter, r *http.Request) error {
-	cred, err := UserCredentials(email)
-	if err != nil {
-		return err
-	}
-	ID := cred.ID
-	hint := utils.SetSession(w, "/", "arh_?na+cu:", ID)
-	http.Redirect(w, r, "/profile"+hint, http.StatusFound)
+	// cred, err := UserCredentials(email)
+	// if err != nil {
+	// 	return err
+	// }
+	// ID := cred.ID
+	// hint := utils.SetSession(w, "/", "arh_?na+cu:", ID)
+	http.Redirect(w, r, "/profile", http.StatusFound)
 	return nil
 }

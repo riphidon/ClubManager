@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/riphidon/clubmanager/db"
+	"github.com/riphidon/clubmanager/utils"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -47,9 +48,12 @@ func RedirectByGroup(email string, w http.ResponseWriter, r *http.Request) error
 	if err != nil {
 		return err
 	}
-
 	group := cred.Group
+	id := cred.ID
+	utils.SetCookieHandler(w, r, id)
+
 	if group == "users" {
+		fmt.Println("inside redirect by group")
 		http.Redirect(w, r, "/profile", http.StatusFound)
 		return nil
 	}
