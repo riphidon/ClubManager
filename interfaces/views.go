@@ -12,7 +12,7 @@ import (
 func ViewBeltList() []string {
 	belts, err := db.BeltList()
 	if err != nil {
-		fmt.Printf("error occured: %v", err)
+		fmt.Printf("error occured: %v\n", err)
 	}
 	return belts
 }
@@ -47,7 +47,7 @@ func ListAllUsers() []*models.ClubUser {
 func FindUserByName(name string) []*models.ClubUser {
 	users, err := db.UsersByName(name)
 	if err != nil {
-		fmt.Printf("error occured: %v\n", err)
+		fmt.Printf("error occured in FindUserByName: %v\n", err)
 	}
 	return users
 }
@@ -55,7 +55,7 @@ func FindUserByName(name string) []*models.ClubUser {
 func FindUserByRank(belt string) []*models.ClubUser {
 	users, err := db.UsersByRank(belt)
 	if err != nil {
-		fmt.Printf("error occured: %v\n", err)
+		fmt.Printf("error occured in FindUserByRank: %v\n", err)
 	}
 	return users
 

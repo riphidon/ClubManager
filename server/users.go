@@ -30,6 +30,7 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) error {
 		if err != nil {
 			return err
 		}
+		//handle error display for client
 		if errCode != 0 {
 			userErr := utils.CatchUserErr(errCode)
 			fmt.Printf("userErr: %v", userErr)
@@ -39,7 +40,7 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) error {
 			}
 			return nil
 		}
-		services.RedirectByGroup(email, w, r)
+		services.RedirectOnLogin(email, w, r)
 	}
 	err := RenderPage(w, config.Data.UserPath, "register", &Page{Title: "register", BeltList: beltList, UserErr: userErr})
 	if err != nil {
@@ -49,7 +50,6 @@ func RegisterPage(w http.ResponseWriter, r *http.Request) error {
 }
 
 func LoginPage(w http.ResponseWriter, r *http.Request) error {
-
 	q := r.URL.Query()
 	switch q.Get("do") {
 	case "logout":
@@ -65,28 +65,26 @@ func LoginPage(w http.ResponseWriter, r *http.Request) error {
 			if err != nil {
 				return err
 			}
+			//handle error display for client
 			if code != 0 {
 				userErr := utils.CatchUserErr(code)
-				fmt.Printf("userErr: %v", userErr)
+				fmt.Printf("userErr: %v\n", userErr)
 				err := RenderPage(w, config.Data.UserPath, "login", &Page{Title: "login", UserErr: userErr})
 				if err != nil {
 					return err
 				}
 				return nil
 			}
-			fmt.Println("in login berfore RBG")
-			if err := services.RedirectByGroup(email, w, r); err != nil {
-				fmt.Printf("err: %v", err)
+			if err := services.RedirectOnLogin(email, w, r); err != nil {
+				fmt.Printf("err: %v\n", err)
 				return err
 			}
 			return nil
 		}
-
 	default:
 		err := RenderPage(w, config.Data.UserPath, "login", &Page{Title: "login"})
 		return err
 	}
-
 	err := RenderPage(w, config.Data.UserPath, "login", &Page{Title: "login"})
 	if err != nil {
 		return err
@@ -96,6 +94,8 @@ func LoginPage(w http.ResponseWriter, r *http.Request) error {
 
 func ProfilePage(w http.ResponseWriter, r *http.Request) error {
 	var err error
+	id := Id
+	userData := interfaces.ViewUserData(r, id, "user")
 	q := r.URL.Query()
 	switch q.Get("do") {
 	case "edit":
@@ -103,13 +103,11 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) error {
 		beltList := interfaces.ViewBeltList()
 		id := utils.CatchURLData(r, "q")
 		userData := interfaces.ViewUserData(r, id, "user")
-		fmt.Printf("user data : %v\n", userData)
 		if err := RenderPage(w, config.Data.UserPath, "editProfile", &Page{Title: "edition", User: userData, BeltList: beltList}); err != nil {
 			return err
 		}
 	case "upd":
 		if r.Method == "POST" {
-			fmt.Println("inside post")
 			member := r.URL.Query().Get("q")
 			user, err := strconv.Atoi(member)
 			if err != nil {
@@ -121,9 +119,6 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) error {
 			http.Redirect(w, r, "/profile", http.StatusFound)
 		}
 	default:
-		id := Id
-		fmt.Printf("id value in ProfilePage: %v\n", id)
-		userData := interfaces.ViewUserData(r, id, "user")
 		err = RenderPage(w, config.Data.UserPath, "profile", &Page{Title: "profile", User: userData})
 		if err != nil {
 			return err

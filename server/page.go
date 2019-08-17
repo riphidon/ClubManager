@@ -10,11 +10,12 @@ import (
 )
 
 type Page struct {
-	Title    string
-	BeltList []string
-	User     models.ClubUser
-	UserErr  string
-	UserList []*models.ClubUser
+	Title       string
+	BeltList    []string
+	User        models.ClubUser
+	UserErr     string
+	UserList    []*models.ClubUser
+	ListByParam []*models.ClubUser
 }
 
 func ParseTemplate(path string) *template.Template {

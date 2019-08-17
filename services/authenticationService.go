@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/riphidon/clubmanager/db"
@@ -20,14 +19,11 @@ func UserCredentials(email string) (credentials, error) {
 	if err != nil {
 		return c, err
 	}
-	fmt.Printf("user : %v\n", user)
 	group, err := db.Role(email)
 	if err != nil {
 		return c, err
 	}
-	fmt.Printf("group : %v\n", group)
 	c.ID = user
-	fmt.Printf("c.ID: %v\n", c.ID)
 	c.Group = group
 	return c, nil
 }
@@ -43,7 +39,7 @@ func ValidatePassword(email, hash string) bool {
 	return true
 }
 
-func RedirectByGroup(email string, w http.ResponseWriter, r *http.Request) error {
+func RedirectOnLogin(email string, w http.ResponseWriter, r *http.Request) error {
 	cred, err := UserCredentials(email)
 	if err != nil {
 		return err
@@ -51,9 +47,7 @@ func RedirectByGroup(email string, w http.ResponseWriter, r *http.Request) error
 	group := cred.Group
 	id := cred.ID
 	utils.SetCookieHandler(w, r, id)
-
 	if group == "users" {
-		fmt.Println("inside redirect by group")
 		http.Redirect(w, r, "/profile", http.StatusFound)
 		return nil
 	}

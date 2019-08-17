@@ -3,19 +3,29 @@
 {{ template "adminHeader" . }}
 	<div class="memberProfile">
 		<h1>PROFILES</h1>
+			<label for="users">Users</label>
+			<select name="users">
+					{{ range $list := .UserList}}		
+							<option value="{{ $list}} ">{{ $list.Name }} {{ $list.Firstname }} {{ $list.Rank }}</option>
+					{{ end }}
+			</select>
 		<div class="searchSelector">
 			<form action="/admin/profiles?do=search" method="POST">
 				<label for="userSelector">Select user by</label>
-				<input name="userSelector" type="radio" value="name">Name<input name="inputValue" value="name" type="text">
-				<input name="userSelector" type="radio" value="rank">Rank<input name="inputValue"value="belt" type="text">
+				<input name="userSelector" type="radio" value="rank">
+				<select name="belt">Rank
+					{{ range $belt := .BeltList}}
+						<option value="{{ $belt }}">{{ $belt }}</option>
+					{{ end }}
+				</select>
 				<input name="userSelector" type="radio" value="all">View all
 				<button type="submit" >Search</button>
 			</form>
 		</div>
+		{{ range $pList := .ListByParam}}
+			<a href="#"> {{ $pList.Rank }} {{ $pList.Name}} {{ $pList.Firstname}} {{ $pList.MedCert}} {{ $pList.Licence}}</a>
+		{{ end }}
 	</div>
-	{{ range $list := .UserList}}
-		<div>{{ $list.Name}} {{ $list.Firstname }} {{ $list.Rank }} {{ $list.Licence }} {{ if eq $list.MedCert false }}Non Fourni {{ else }} Fourni {{ end }}</div>
-	{{ end }}
 {{ template "adminFooter" . }}
 
 {{ end }}
