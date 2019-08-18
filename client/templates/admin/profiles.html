@@ -3,29 +3,65 @@
 {{ template "adminHeader" . }}
 	<div class="memberProfile">
 		<h1>PROFILES</h1>
-			<label for="users">Users</label>
-			<select name="users">
-					{{ range $list := .UserList}}		
-							<option value="{{ $list}} ">{{ $list.Name }} {{ $list.Firstname }} {{ $list.Rank }}</option>
-					{{ end }}
-			</select>
 		<div class="searchSelector">
 			<form action="/admin/profiles?do=search" method="POST">
-				<label for="userSelector">Select user by</label>
-				<input name="userSelector" type="radio" value="rank">
-				<select name="belt">Rank
+				<label for="userSelector">Select : </label>
+				<input name="userSelector" type="radio" value="list">from the list
+				<select name="userRow">
+					<option >select user</option>
+						{{ range $list := .UserList }}	
+								{{ $id := $list.UserID}}
+								<option value="{{ $id }}">
+									{{ $list.Name }} 
+									{{ $list.Firstname }} 
+									{{ $list.Rank }} 
+								 	
+								</option>
+						{{ end }}
+				</select>
+				<input name="userSelector" type="radio" value="rank"> by rank
+				<select name="belt">
 					{{ range $belt := .BeltList}}
 						<option value="{{ $belt }}">{{ $belt }}</option>
 					{{ end }}
 				</select>
-				<input name="userSelector" type="radio" value="all">View all
 				<button type="submit" >Search</button>
 			</form>
 		</div>
-		{{ range $pList := .ListByParam}}
-			<a href="#"> {{ $pList.Rank }} {{ $pList.Name}} {{ $pList.Firstname}} {{ $pList.MedCert}} {{ $pList.Licence}}</a>
+
+		<div class="rankByList">
+			{{ range $pList := .ListByParam}}
+			<a href="/admin/profiles?do=update&n={{ $pList.UserID }}"> 
+				{{ $pList.Rank }}
+				{{ $pList.Name}}
+				{{ $pList.Firstname}} 
+				{{ if eq $pList.MedCert false}}
+				no certificate
+				{{ else }}
+				certificate ok 
+				{{ end }}
+				{{ $pList.Licence}}
+				group: {{ $pList.Role }}
+			</a><br>
+			{{ end }}
+		</div>
+
+		{{if ne .UserProfile.UserID 0}}
+		<div class="profile">
+			{{ $profile := .UserProfile }}
+			<a href="/admin/profiles?do=update&n={{ $profile.UserID }}">
+				{{ $profile.Rank }} 
+				{{ $profile.Name}}
+				{{ $profile.Firstname}} 
+				{{ if eq $profile.MedCert false}}
+				no certificate
+				{{ else }}
+				certificate ok 
+				{{ end }}
+				{{ $profile.Licence}}</a>
+		</div>
 		{{ end }}
-	</div>
+	
 {{ template "adminFooter" . }}
 
 {{ end }}

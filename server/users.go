@@ -99,9 +99,7 @@ func ProfilePage(w http.ResponseWriter, r *http.Request) error {
 	q := r.URL.Query()
 	switch q.Get("do") {
 	case "edit":
-		fmt.Println("inside edit")
 		beltList := interfaces.ViewBeltList()
-		id := utils.CatchURLData(r, "q")
 		userData := interfaces.ViewUserData(r, id, "user")
 		if err := RenderPage(w, config.Data.UserPath, "editProfile", &Page{Title: "edition", User: userData, BeltList: beltList}); err != nil {
 			return err

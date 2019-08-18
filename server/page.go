@@ -16,6 +16,7 @@ type Page struct {
 	UserErr     string
 	UserList    []*models.ClubUser
 	ListByParam []*models.ClubUser
+	UserProfile models.ClubUser
 }
 
 func ParseTemplate(path string) *template.Template {

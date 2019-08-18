@@ -44,12 +44,16 @@ func ListAllUsers() []*models.ClubUser {
 	return userList
 }
 
-func FindUserByName(name string) []*models.ClubUser {
-	users, err := db.UsersByName(name)
+func FindUserById(id int) models.ClubUser {
+	// ID, err := strconv.P(id)
+	// if err != nil {
+	// 	fmt.Printf("error occured parsing data: %v\n", err)
+	// }
+	user, err := db.UsersById(id)
 	if err != nil {
-		fmt.Printf("error occured in FindUserByName: %v\n", err)
+		fmt.Printf("error occured in FindUserById: %v\n", err)
 	}
-	return users
+	return user
 }
 
 func FindUserByRank(belt string) []*models.ClubUser {

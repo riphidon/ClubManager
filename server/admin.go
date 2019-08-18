@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/riphidon/clubmanager/config"
 	"github.com/riphidon/clubmanager/interfaces"
@@ -22,6 +23,7 @@ func AdminSection(w http.ResponseWriter, r *http.Request) error {
 	case "profiles":
 		//switchCaseProfiles(w, r, userData)
 		var paramList []*models.ClubUser
+		var userProfile models.ClubUser
 		q := r.URL.Query()
 		switch q.Get("do") {
 		case "search":
@@ -30,15 +32,32 @@ func AdminSection(w http.ResponseWriter, r *http.Request) error {
 			searchBy := r.FormValue("userSelector")
 			fmt.Printf("searchBy: %v\n", searchBy)
 			belt := r.FormValue("belt")
+
 			if searchBy == "rank" {
 				paramList = interfaces.FindUserByRank(belt)
+				err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list, User: userData, BeltList: beltList, ListByParam: paramList})
+				if err != nil {
+					return err
+				}
+				return nil
+			}
+			if searchBy == "list" {
+				sUser := r.FormValue("userRow")
+				user, err := strconv.Atoi(sUser)
+				if err != nil {
+					fmt.Printf("error occured parsing data: %v\n", err)
+				}
+				userProfile = interfaces.FindUserById(user)
+				err = RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list, User: userData, BeltList: beltList, UserProfile: userProfile})
+				if err != nil {
+					return err
+				}
+				return nil
 			}
 
-			err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list, User: userData, BeltList: beltList, ListByParam: paramList})
-			if err != nil {
-				return err
-			}
-
+		case "edit":
+			user := r.URL.Query().Get("n")
+			fmt.Printf("USER ID: %v", user)
 		default:
 			err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{Title: "profiles", UserList: list, User: userData, BeltList: beltList, ListByParam: paramList})
 			if err != nil {
@@ -68,36 +87,6 @@ func AdminSection(w http.ResponseWriter, r *http.Request) error {
 }
 
 func switchCaseProfiles(w http.ResponseWriter, r *http.Request, userData models.ClubUser) error {
-	list := interfaces.ListAllUsers()
-	beltList := interfaces.ViewBeltList()
-	var paramList []*models.ClubUser
-	q := r.URL.Query()
-	switch q.Get("do") {
-	case "search":
-		fmt.Println("INSIDE SEARCH")
-		r.ParseForm()
-		searchBy := r.FormValue("userSelector")
-		fmt.Printf("searchBy: %v\n", searchBy)
-		belt := r.FormValue("belt")
-		if searchBy == "rank" {
-			paramList = interfaces.FindUserByRank(belt)
-		}
 
-		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{UserList: list, User: userData, BeltList: beltList, ListByParam: paramList})
-		if err != nil {
-			return err
-		}
-
-	default:
-		err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{Title: "profiles", User: userData})
-		if err != nil {
-			return err
-		}
-
-	}
-	err := RenderPage(w, config.Data.AdminPath, "profiles", &Page{Title: "profiles", User: userData})
-	if err != nil {
-		return err
-	}
 	return nil
 }

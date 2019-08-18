@@ -257,7 +257,7 @@ func AllUsers() ([]*models.ClubUser, error) {
 
 func UsersByRank(belt string) ([]*models.ClubUser, error) {
 	query := `
-		SELECT user_id, name, firstname, rank, licence, med_cert
+		SELECT user_id, name, firstname, rank, licence, med_cert, role
 		FROM club_user
 		WHERE rank = $1`
 	rows, err := DB.Query(query, belt)
@@ -268,7 +268,7 @@ func UsersByRank(belt string) ([]*models.ClubUser, error) {
 	userList := make([]*models.ClubUser, 0)
 	for rows.Next() {
 		user := new(models.ClubUser)
-		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert)
+		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert, &user.Role)
 		if err != nil {
 			return nil, errors.Wrap(err, "can't perform scan")
 		}
@@ -281,30 +281,17 @@ func UsersByRank(belt string) ([]*models.ClubUser, error) {
 	return userList, nil
 }
 
-func UsersByName(name string) ([]*models.ClubUser, error) {
+func UsersById(id int) (models.ClubUser, error) {
+	var user models.ClubUser
 	query := `
-		SELECT user_id, name, firstname, rank, licence, med_cert
+		SELECT user_id, name, firstname, rank, licence, med_cert, role
 		FROM club_user
-		WHERE name = $1`
-	rows, err := DB.Query(query, name)
+		WHERE user_id = $1`
+	err := DB.QueryRow(query, id).Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert, &user.Role)
 	if err != nil {
-		return nil, errors.Wrap(err, "can't query Database")
+		return user, errors.Wrap(err, "Couldn't execute sql statement")
 	}
-	defer rows.Close()
-	userList := make([]*models.ClubUser, 0)
-	for rows.Next() {
-		user := new(models.ClubUser)
-		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert)
-		if err != nil {
-			return nil, errors.Wrap(err, "can't perform scan")
-		}
-		userList = append(userList, user)
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, errors.Wrap(err, "Additional errors while scanning database rows")
-	}
-	return userList, nil
+	return user, nil
 }
 
 func Role(email string) (string, error) {
