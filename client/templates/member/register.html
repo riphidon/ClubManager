@@ -4,34 +4,36 @@
 	{{if ne .UserErr "" }}
 		<div class="error">{{.UserErr}}</div>
 	{{ end }}
-	<div class="register">
-		<form action="/register" method="POST">
+	<div class="content register">
+		<form action="/register" method="POST" class="form registerForm">
 			<label for="passphrase">Clé</label>
 			<input name="passphrase" type="text" required>
-
+			<br>
 			<label for="lastname">Nom</label>
 			<input name="lastname" type="text" required>
-	
+			<br>
 			<label for="firstname">Prénom</label>
 			<input name="firstname" type="text" required>
-
-			<label for="belt">Ceinture</label>
-			<select name="belt">
-				{{ range $belt := .BeltList}}
-					<option value="{{ $belt }}">{{ $belt }}</option>
-				{{ end }}
-				  </select>
-
+			<br>
+			<div class="beltSelection">
+				<label for="belt">Ceinture</label>
+				<select name="belt">
+					{{ range $belt := .BeltList}}
+						<option value="{{ $belt }}">{{ $belt }}</option>
+					{{ end }}
+				</select>
+			</div>
+			<br>
 			<label for="email">Email</label>
 			<input name="email" type="email" required>
-
+			<br>
 			<label for="password">Mot de Passe</label>
 			<input name="password" type="password" required>
-
+			<br>
 			<label for="confirmpassword">Confirmez le Mot De Passe</label>
 			<input name="confirmpassword" type="password" required>
-
-			<button type="submit">S'enregistrer</button>
+			<br>
+			<button type="submit" class="btn btnRegister">S'enregistrer</button>
 		</form>
 	</div>
 {{ template "footer" . }}

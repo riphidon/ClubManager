@@ -1,0 +1,31 @@
+{{ define "infoEdit" }}
+{{ template "adminHeader" . }}
+	<div class="infoForm">
+		{{ $info := .Info }}
+		<form action="/admin/info?do=update" method="POST" class="editForm editInfo" autocomplete="off">
+			<p class="back"><a href="/admin/info" class="btnBack"><img src="/static/assets/images/Back-512.png"></a></p>
+			<div class="formRow">
+				<input name="id" type="hidden" value="{{ $info.InfoID }}">
+			</div>
+			<div class="formRow">
+				<label for="date">Date : </label>
+				{{ $date := $info.InfoDte.Format "02-01-2006"}}
+				<input name="date" type="text" value='{{ $date }}'>
+			</div>
+			<div class="formRow">
+				<label for="title">Title : </label>
+				<input name="title" type="text" value="{{ $info.InfoTitle }}">
+			</div>
+			<div class="formRow descrRow">
+				<label for="description"  class="descr">Description : </label>
+				<textarea name="description" cols="30" rows="10">{{ $info.InfoDescr }}</textarea>
+			</div>
+			<div class="formRow">
+				<label for="author">Author : </label>
+				<input name="author" type="text" value="{{ $info.InfoAuthor }}">
+			</div>
+			<button type="submit" class="btn btnSubmit">EDIT</button>
+		</form>
+	</div>
+{{ template "adminFooter" . }}
+{{ end }}

@@ -10,34 +10,14 @@ import (
 //Create
 func StoreNewUser(u models.ClubUser) error {
 	query := `INSERT INTO club_user (name, firstname, email, hash, role,
-			 rank, med_cert, licence)
-			 VALUES ($1, $2, $3, $4,'users', $5, false, '')`
-	_, err := DB.Exec(query, u.Name, u.Firstname, u.Email, u.Hash, u.Rank)
+			 rank, rank_obtained, med_cert ,entry_date, licence)
+			 VALUES ($1, $2, $3, $4 ,$5 , $6, $7, $8, $9, $10)`
+	_, err := DB.Exec(query, u.Name, u.Firstname, u.Email, u.Hash, u.Role, u.Rank, u.RankObtained, u.MedCert, u.EntryDate, u.Licence)
 	if err != nil {
 		fmt.Println("registering error")
 		return errors.Wrap(err, "Can't execute sql statement")
 	}
 	fmt.Println("registering")
-	return nil
-}
-
-func StoreNewTask(t models.Task) error {
-	query := `INSERT INTO task (content, author)
-			VALUES ($1, $2)`
-	_, err := DB.Exec(query, t.Content, t.Author)
-	if err != nil {
-		return errors.Wrap(err, "Can't execute sql statement")
-	}
-	return nil
-}
-
-func StoreNewComp(c models.Competition) error {
-	query := `INSERT INTO task (name, orga, location, dte)
-			VALUES ($1, $2, $3, $4)`
-	_, err := DB.Exec(query, c.Name, c.Orga, c.Location, c.Dte)
-	if err != nil {
-		return errors.Wrap(err, "Can't execute sql statement")
-	}
 	return nil
 }
 
@@ -116,57 +96,6 @@ func UserData(id int) (*models.ClubUser, error) {
 	return data, nil
 }
 
-func AdminData(id int) (*models.ClubUser, error) {
-	var data = new(models.ClubUser)
-	query := `SELECT user_id,
-					 name,
-  					firstname,
-					  rank,
-  					licence
-  			FROM club_user
-  			WHERE user_id = $1`
-	if err := DB.QueryRow(query, id).Scan(&data.UserID, &data.Name,
-		&data.Firstname, &data.Rank, &data.Licence); err != nil {
-		return data, errors.Wrap(err, "Couldn't execute sql statement")
-	}
-	return data, nil
-}
-
-func ListByParam(param, data string) ([]*models.ClubUser, error) {
-	var query string
-	switch param {
-	case "name":
-		query = `
-		SELECT user_id, name, firstname, rank
-		FROM club_user
-		WHERE name = $1`
-	case "rank":
-		query = `
-		SELECT user_id, name, firstname, rank
-		FROM club_user
-		WHERE rank = $1`
-	}
-	rows, err := DB.Query(query, data)
-	if err != nil {
-		return nil, errors.Wrap(err, "can't query Database")
-	}
-	defer rows.Close()
-	userList := make([]*models.ClubUser, 0)
-	for rows.Next() {
-		user := new(models.ClubUser)
-		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank)
-		if err != nil {
-			return nil, errors.Wrap(err, "can't perform scan")
-		}
-		userList = append(userList, user)
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, errors.Wrap(err, "Additional errors while scanning database rows")
-	}
-	return userList, nil
-}
-
 //Update
 func ProfileByUser(u models.ClubUser) error {
 	query := `UPDATE club_user
@@ -174,40 +103,6 @@ func ProfileByUser(u models.ClubUser) error {
 			 licence = $5, med_cert = $6, entry_date = $7
 			 WHERE user_id = $8`
 	_, err := DB.Exec(query, u.Name, u.Firstname, u.Rank, u.RankObtained, u.Licence, u.MedCert, u.EntryDate, u.UserID)
-	if err != nil {
-		return errors.Wrap(err, "Can't execute sql statement")
-	}
-	return nil
-}
-
-func ProfileByAdmin(u models.ClubUser) error {
-	query := `UPDATE club_user
-			SET name = $1, firstname = $2, role = $3, rank = $4, rank_obtained = $5,
-			 licence = $6, med_cert = $7, entry_date = $9
-			 WHERE user_id = $10`
-	_, err := DB.Exec(query, u.Name, u.Firstname, u.Role, u.Rank, u.RankObtained, u.Licence, u.MedCert, u.EntryDate, u.UserID)
-	if err != nil {
-		return errors.Wrap(err, "Can't execute sql statement")
-	}
-	return nil
-}
-
-func CompByAdmin(c models.Competition) error {
-	query := `UPDATE competition
-			SET name = $1, orga = $2, location = $3, dte = $4
-			WHERE comp_id = $5`
-	_, err := DB.Exec(query, c.Name, c.Orga, c.Location, c.Dte, c.CompID)
-	if err != nil {
-		return errors.Wrap(err, "Can't execute sql statement")
-	}
-	return nil
-}
-
-func TaskByAdmin(t models.Task) error {
-	query := `UPDATE task
-			SET content = $1, author = $2
-			WHERE task_id = $5`
-	_, err := DB.Exec(query, t.Content, t.Author, t.TaskID)
 	if err != nil {
 		return errors.Wrap(err, "Can't execute sql statement")
 	}
@@ -255,54 +150,17 @@ func AllUsers() ([]*models.ClubUser, error) {
 	return userList, nil
 }
 
-func UsersByRank(belt string) ([]*models.ClubUser, error) {
-	query := `
-		SELECT user_id, name, firstname, rank, licence, med_cert, role
-		FROM club_user
-		WHERE rank = $1`
-	rows, err := DB.Query(query, belt)
-	if err != nil {
-		return nil, errors.Wrap(err, "can't query Database")
-	}
-	defer rows.Close()
-	userList := make([]*models.ClubUser, 0)
-	for rows.Next() {
-		user := new(models.ClubUser)
-		err := rows.Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert, &user.Role)
-		if err != nil {
-			return nil, errors.Wrap(err, "can't perform scan")
-		}
-		userList = append(userList, user)
-	}
-	err = rows.Err()
-	if err != nil {
-		return nil, errors.Wrap(err, "Additional errors while scanning database rows")
-	}
-	return userList, nil
-}
-
 func UsersById(id int) (models.ClubUser, error) {
 	var user models.ClubUser
 	query := `
-		SELECT user_id, name, firstname, rank, licence, med_cert, role
+		SELECT user_id, name, firstname, rank, licence, med_cert, role, entry_date, rank_obtained
 		FROM club_user
 		WHERE user_id = $1`
-	err := DB.QueryRow(query, id).Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert, &user.Role)
+	err := DB.QueryRow(query, id).Scan(&user.UserID, &user.Name, &user.Firstname, &user.Rank, &user.Licence, &user.MedCert, &user.Role, &user.EntryDate, &user.RankObtained)
 	if err != nil {
 		return user, errors.Wrap(err, "Couldn't execute sql statement")
 	}
 	return user, nil
-}
-
-func Role(email string) (string, error) {
-	group := ""
-	query := ` SELECT role
- 			FROM club_user
- 			WHERE email = $1`
-	if err := DB.QueryRow(query, email).Scan(&group); err != nil {
-		return group, errors.Wrap(err, "Couldn't execute sql statement")
-	}
-	return group, nil
 }
 
 func Hash(email string) (string, error) {

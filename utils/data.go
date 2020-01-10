@@ -56,3 +56,10 @@ func CatchUserErr(code int) string {
 
 	}
 }
+
+func CheckState(id string) bool {
+	if id == "" {
+		return false
+	}
+	return true
+}

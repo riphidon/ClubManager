@@ -10,24 +10,50 @@
 	<title>{{ .Title }}</title>
 </head>
 <body>
-		{{ $admin := .User}}
-		<div class="welcome">
-			<p>Hello {{ $admin.Firstname }}, welcome to admin section</p>
-			{{ if ne .Title "profiles"}}
-			<a href="/admin/profiles" class="navLink">profiles</a>
-			{{ end }}
-			{{ if ne .Title "tasks"}}
-			<a href="/admin/tasks" class="navLink">tasks</a>
-			{{ end }}
-			{{ if ne .Title "competitions"}}
-			<a href="/admin/competitions" class="navLink">competitions</a>
-			{{ end }}
-			{{ if ne .Title "admin"}}
-			<a href="/admin" class="navLink">Admin Home</a>
-			{{ end }}
-			<a href="/login?do=logout">Log Out</a>
-		</div>
-	</header>
+	<div class="container">
+		<header>
+			{{ $admin := .User}}
+			<h1>Hello {{ $admin.Firstname }}, welcome to admin section</h1>
+		</header>
+		<nav class="welcome">
+			<div class="btnIcon">
+				<button id="btn-menu" type="button">
+					<span><img class="iconmenu" src="/static/assets/images/menu.png" alt="menu-icon"></span>
+				</button>
+			</div>
+			<div class="menuList">
+				<ul id="toggle-list">
+					{{ if ne .Title "admin"}}
+					<li class="navItem">
+						<a href="/admin" class="navLink">Home</a>
+					</li>
+					{{ end }}
+					{{ if ne .Title "profiles"}}
+					<li class="navItem">
+						<a href="/admin/profiles" class="navLink">Profiles</a>	
+					</li>
+					{{ end }}
+					{{ if ne .Title "tasks"}}
+					<li class="navItem">
+						<a href="/admin/tasks" class="navLink">Tasks</a>
+					</li>
+					{{ end }}
+					{{ if ne .Title "event"}}
+					<li class="navItem">
+						<a href="/admin/event" class="navLink">Events</a>
+					</li>
+					{{ end }}
+					{{ if ne .Title "info"}}
+					<li class="navItem">
+						<a href="/admin/info" class="navLink">Infos</a>
+					</li>
+					{{ end }}
+					<li class="navItem">
+						<a href="/login?do=logout">Log Out</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
 {{ end }}
 	

@@ -40,3 +40,26 @@ func Edit(w http.ResponseWriter, r *http.Request, member int) error {
 	return nil
 
 }
+
+func AdminEdit(w http.ResponseWriter, r *http.Request, user int) error {
+	r.ParseForm()
+	rank := r.FormValue("belt")
+	sRankObtained := r.FormValue("rankObtained")
+	rankObtained, err := strconv.Atoi(sRankObtained)
+	if err != nil {
+		return err
+	}
+	licence := r.FormValue("licence")
+	group := r.FormValue("group")
+	fmt.Printf("group in adminedit: %v\n", group)
+	sMedCert := r.FormValue("medCert")
+	medCert, err := strconv.ParseBool(sMedCert)
+	if err != nil {
+		return err
+	}
+	n := services.AdminUserEdit(rank, licence, group, medCert, rankObtained, user)
+	if err := services.AdminUpdate(n); err != nil {
+		return err
+	}
+	return nil
+}

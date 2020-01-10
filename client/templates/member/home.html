@@ -1,8 +1,45 @@
 {{ define "home"}}
 
 {{ template "header" . }}
-	<div class="home">
-		<p>Welcome to Club Manager</p>
+	<div class="content home">
+		<h2>Latest News</h2>
+		<div class="news">
+				<div class="infoList">
+						{{ $infos := .Infos}}
+						{{ if ne (len $infos) 0 }}
+						{{ range $i := $infos }}
+						<div class="infos">
+							<h3>{{ $i.InfoTitle }}</h3>
+							<p>{{ $i.InfoDescr}}</p>
+							<span>{{ $i.InfoAuthor}}</span>
+						</div>
+						{{ end }}
+						{{ else }}
+						<p>No infos to show</p>
+						{{ end }}
+					</div>
+					<div class="eventList">
+						{{ $events := .Events}}
+						{{ if ne (len $events) 0 }}
+						{{ range $e := $events}}
+						<div class="events">
+								<h3>{{ $e.EventType }} {{ $e.EventTitle }}</h3>
+								<span>{{ $e.EventDte.Format "02-01-06"}}</span>
+								<p>
+								   {{ $e.EventOrga }} <br>    
+								   {{ $e.EventLocation }} <br>
+								   {{ $e.EventDescr }}  
+								</p>
+								<span>{{ $e.EventInfo }}</span>
+								<a href="/compRegisteration?do=comp&event={{ $e.EventTitle }}">inscription</a>
+						</div>
+						{{ end }}
+						{{ else }}
+						<p>No event to show</p>
+						{{ end }}
+					</div>
+		</div>
+		
 	</div>
 {{ template "footer" . }}
 

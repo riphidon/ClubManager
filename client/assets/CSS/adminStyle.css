@@ -1,0 +1,571 @@
+html,
+body {
+	box-sizing: border-box;
+	margin: 0 auto;
+	padding: 0;
+	min-height: 100vh;
+	width: 100vw;
+	background-image: url("/static/assets/images/wallpaper.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center 80%;
+}
+
+a {
+	text-decoration: none;
+	color: gold;
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+h1 {
+	font-size: 1.25em;
+	text-align: center;
+	color: wheat;
+	text-shadow: 2px -2px 3px black;
+}
+
+header {
+	background: rgba(0, 0, 255, 0.5);
+	border-bottom: 4px solid gold;
+	color: whitesmoke;
+	padding: 0.5em;
+}
+
+nav {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	margin-top: 2em;
+	height: auto;
+}
+
+.container {
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	width: 100vw;
+	background-color: rgba(255, 217, 0, 0.250);
+}
+
+.back {
+	display: inline;
+	margin-block-start: 0;
+	margin-block-end: 0;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+}
+.btnBack img {
+	height: 8vh;
+	width: 10vw;
+}
+@media screen and (min-width: 767px) {
+	
+}
+@media screen and (min-width: 1300px) {
+	.container{
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-start;
+	}
+
+	header {
+		width: 100%;
+		height: 5em;
+		display: block;
+	}
+}
+
+
+/*|||||||-MENU-|||||||*/
+.menuList {
+	display: flex;
+	justify-content: flex-end;
+	height: auto;
+	z-index: 100;
+	background: rgba(0, 0, 0, 0.750);
+	border-radius: 1em;
+}
+
+#btn-menu {
+	margin-right: 1em;
+	border-radius: 5px;
+	border-color: #000;
+	background: gold;
+}
+
+#toggle-list {
+	
+	width: auto;
+	padding: 0.5em;
+	margin: 0;
+	
+	list-style-type: none;
+	display: none;
+}
+
+#toggle-list li {
+	margin-bottom: 1em;
+	text-shadow: 2px -1px 2px #000;
+}
+
+.btn {
+	height: 2em;
+	color: blue;
+	background-color: gold;
+	border-style: none;
+	border-radius: 5px;
+	margin-top: 2em;
+	width: 10em;
+	font-weight: bold;
+}
+
+@media screen and (min-width: 767px) {
+	#btn-menu {
+		display: none;
+	}
+
+	.welcome {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		margin: 0;
+	}
+
+	.menuList {
+		justify-items: center;
+		width: 75%;
+	}
+
+	#toggle-list {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		align-items: center;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+	}
+
+	.navItem {
+		padding: 0 1em;
+		margin: 0!important;
+	}
+
+}
+
+
+@media screen and (min-width: 1300px) {
+	.welcome{
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		width: 15vw;
+		height: 60vh;
+	}
+	.menuList {
+		height: 100%;
+		width: 100%;
+	
+	}
+	#toggle-list {
+		flex-direction: column;
+		align-self: flex-start;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		border-radius: 10px;
+	}
+
+	.navItem {
+		font-size: 1vw;
+		padding: 1.5em 1em;
+	}
+}
+/*|||||||-PROFILES-|||||||*/
+.pageTitle {
+	font-size: 1.3em;
+	text-align: center;
+	font-weight: bold;
+	background: rgb(0, 0, 0, 0.675);
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	width: 8em;
+	/* height: auto; */
+	color: gold;
+	text-shadow: 2px 1px 2px blue;
+	margin: 0 auto;
+	
+}
+
+.searchForm{
+	display: flex;
+	flex-direction: column;
+	padding: 0.5em;
+	font-weight: bold;
+}
+.searchForm,
+.rankByList,
+.profile {
+	color: whitesmoke;
+	background: rgba(0, 0, 0, 0.675);
+	border-radius: 5px;
+}
+
+.searchForm select {
+	display: inline-block;
+	width: 15em;
+	align-self: center;
+}
+
+.searchForm input {
+	margin-left: 2em;
+}
+
+.searchTitle,
+.btnSubmit {
+	align-self: center;
+}
+
+.user,
+.rankList {
+	display: flex;
+	flex-wrap: wrap;
+	height: auto;
+	text-align: left;
+	font-size: 0.75em;
+	margin-top: 0.75em;
+	padding: 0.25em;
+	background: rgba(0, 0, 0, 0.675);
+	border-radius: 5px;
+}
+
+.user a,
+.rankList a {
+	width: 100%;
+	padding: 0.35em 0;
+}
+
+@media screen and (min-width: 767px) {
+	.pageTitle {
+		background: rgb(0, 0, 0);
+		font-size: 2em;
+		margin-top: 0.25em;
+	}
+	
+	.searchForm {
+		flex-direction: row;
+		justify-content: space-evenly;
+		background-color: black;
+	}
+
+	.searchForm select {
+		width: 15%;
+	}
+
+	.searchTitle {
+		width: 15%;
+		text-align: center;
+	}
+
+	.byName,
+	.byRank {
+		display: flex;
+		flex-wrap: nowrap;
+		width: 10%;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	.btnSubmit {
+		margin: 0;
+	}
+
+	.rankList,
+	.user {
+		width: 60%;
+		margin: 1em auto;
+		
+	}
+
+	.user a,
+	.rankList a {
+		font-size: 1.5em;
+		width: 80%;
+		margin: 0 auto;
+	}
+	
+	
+}
+
+@media screen and (min-width: 1300px) {
+	.memberProfile {
+		display: flex;
+		flex-wrap: wrap;
+		width: 85vw;
+		justify-content:  center;
+		align-content: flex-start;
+	}
+
+	.profileBar {
+		width: 100%;
+		height: 5vh;
+		display: flex;
+		justify-content: center;
+		flex-wrap: nowrap;
+	}
+	.pageTitle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+		font-size: 1.2vw;
+		background-color: rgba(0, 0, 0, 0.750);
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		border-bottom-left-radius: 5px;
+		height: 5vh;
+		width: 10%;
+	}
+
+	.searchSelector {
+		width: 80%;
+		height: 5vh;
+	}
+
+	.searchForm {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		background-color: rgba(0, 0, 0, 0.750);
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	.rankList {
+		width: 70%;
+		height: auto;
+		margin-top: 5vh;
+		padding: 2em;
+	}
+
+}
+
+
+
+/*|||||||-EDITPROFILE-|||||||*/
+.userEdit{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 70vh;
+}
+.editForm {
+	display: inherit;
+	flex-direction: column;
+	background-color: rgba(0, 0, 255, 0.479);
+	border: 5px solid black;
+	width: 100%;
+	border-radius: 5px;
+	padding: 0.5em;
+
+}
+
+.editForm label {
+	display: inline-block;
+	width: 10em;
+	color: white;
+	font-weight: bold;
+	font-size: 1em;
+	text-align: end;
+}
+
+.formRow {
+	margin: 0.5em 0;
+}
+.licenceLabel {
+	width: 5em!important;
+}
+
+.licenceRow {
+	width: 100%;
+}
+
+.licenceRow input {
+	width: auto!important;
+	text-align: center;
+}
+.editForm input {
+	border-style: none none solid none;
+	background-color: transparent;
+	color: gold;
+	width: 8em;
+	font-size: 1.1em;
+	padding-left: 0.5em;
+	font-weight: bold;
+	text-align: left;
+	text-shadow: 3px 1px 3px black;
+}
+
+.readInput {
+	border-style: none!important;
+}
+
+.yearInput {
+	width: 3em;
+}
+
+.radioInput {
+	color: gold;
+	font-weight: bold;
+}
+
+.radioInput input {
+	width: auto;
+	font-size: 0.7em;
+}
+
+.btnSubmit {
+	color: blue;
+	font-weight: bold;
+}
+
+
+
+
+@media screen and (min-width: 767px) {
+	
+
+	.editForm {
+		align-items: center;
+		text-shadow: 3px 1px 3px black;
+	}
+
+	.editForm label {
+		font-size: 1.2em;
+	}
+	
+	.formRow{
+		width: 25em;
+		margin-left: 5em;
+		padding: 0.25em 0;
+		
+	}
+
+	.formRow label {
+		
+		text-align: left;
+	}
+}
+
+@media screen and (min-width: 1300px) {
+	.userEdit {
+		width: 80%;
+	}
+
+	
+}
+
+/*|||||||-EVENTS/INFOS-|||||||*/
+.infoForm, .eventForm {
+	padding: 0;
+	margin: 0!important;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+}
+
+.addEvent, .addInfo {
+	margin: 0;
+	width: 100%;
+}
+
+.addEvent .formRow,
+.addInfo .formRow {
+	text-align: center;
+}
+.eventContainer,
+.infoContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 2em;
+}
+
+.eventList,
+.infoList {
+	display: inherit;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.623);
+	border-radius: 5px;
+	width: 100%;
+	min-height: 20vh;
+	padding-top: 1em;
+}
+
+.events,
+.infos {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.eventLink,
+.infoLink {
+	display: inline-block;
+	color: wheat;
+	width: 70%;
+	text-align: center;
+}
+
+.delEventLink,
+.delInfoLink {
+	display: inline-block;
+	color: red;
+	width: 30%;
+	text-align: left;
+}
+
+.btnEvent,
+.btnInfo {
+	color: blue!important;
+	font-size: 0.9em;
+	text-align: center;
+	padding-top: 1em;
+
+}
+
+
+.editEvent label, .editInfo label,
+.addEvent label, .addInfo label {
+	width: 40vw;
+	text-align: right;
+}
+
+.descrRow {
+	display: flex;
+	flex-direction: column;
+	align-self: center;
+
+}
+
+.editEvent input, .editInfo input,
+.addEvent input, .addInfo input {
+	width: 40vw;
+	text-align: center;
+}
+
+@media screen and (min-width: 767px) {
+	.eventForm,
+	.infoForm {
+		display: flex;
+		flex-direction: column;
+	}
+
+	
+}

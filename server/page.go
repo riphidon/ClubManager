@@ -11,12 +11,22 @@ import (
 
 type Page struct {
 	Title       string
+	Message     string
 	BeltList    []string
+	WeightList  []string
+	AgeList     []string
 	User        models.ClubUser
+	Editable    models.ClubUser
 	UserErr     string
 	UserList    []*models.ClubUser
 	ListByParam []*models.ClubUser
 	UserProfile models.ClubUser
+	Events      []*models.Event
+	Event       *models.Event
+	EventTitle  string
+	Infos       []*models.Info
+	Info        *models.Info
+	LogState    bool
 }
 
 func ParseTemplate(path string) *template.Template {

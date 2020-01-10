@@ -1,0 +1,27 @@
+{{ define "infoAdd" }}
+{{ template "adminHeader" . }}
+<div class="infoForm">
+		
+	<form action="/admin/info?do=add" method="POST" class="editForm addInfo" autocomplete="off">
+		<p class="back"><a href="/admin/info" class="btnBack"><img src="/static/assets/images/Back-512.png"></a></p>
+		<div class="formRow">
+			<label for="date">Date : </label>
+			<input name="date" type="date">
+		</div>
+		<div class="formRow">
+			<label for="title">Title : </label>
+			<input name="title" type="text">
+		</div>
+		<div class="formRow">
+			<label for="description">Description : </label>
+			<textarea name="description" cols="30" rows="10"></textarea>
+		</div>
+		<div class="formRow">
+			<label for="author">Author : </label>
+			<input name="author" type="text">
+		</div>
+		<button type="submit" class="btn btnSubmit">CREATE</button>
+	</form>
+</div>
+{{ template "adminFooter" . }}
+{{ end }}

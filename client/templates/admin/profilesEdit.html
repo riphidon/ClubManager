@@ -1,49 +1,67 @@
 {{ define "profilesEdit"}}
 
 {{ template "adminHeader" . }}
-{{ $data := .User}}
-<div class="userEdit">
-		<form action="/admin/adminedit?do=update&q={{$data.UserID}}" method="POST">
+{{ $data := .Editable }}
+<div class="content userEdit">
+		<form action="/admin/profiles?do=update&n={{$data.UserID}}" method="POST" class="editForm">
+		<p class="back"><a href="/admin/info" class="btnBack"><img src="/static/assets/images/Back-512.png"></a></p>
 
-			<label for="name">NOM</label>
-			<input name="name" type="text" value="{{ $data.Name }}" required>
-	
-			<label for="firstname">PRENOM</label>
-			<input name="firstname" type="text" value="{{ $data.Firstname }}" required>
-
-			<label for="group">Group</label>
-			<input name="group" type="text" value="{{ $data.Role }}" required>
-
-			<label for="entryDate">Année d'inscription au club</label>
-			<input name="entryDate" type="number" value="{{ $data.EntryDate }}" required>
-
-			<label for="belt">Ceinture</label>
-			<select name="belt">
-					<option value="{{ $data.Rank }}">{{ $data.Rank }}</option>
-				{{ range $belt := .BeltList}}
-					<option value="{{ $belt }}">{{ $belt }}</option>
+			<div class="formRow">
+				<input type="hidden" value="{{$data.UserID}}">
+				<label for="name">NOM</label>
+				<input name="name" type="text" value="{{ $data.Name }}" class="readInput" readonly>
+			</div>
+			<div class="formRow">
+				<label for="firstname">PRENOM</label>
+				<input name="firstname" type="text" value="{{ $data.Firstname }}" class="readInput" readOnly>
+			</div>
+			<div class="formRow">
+				<label for="group">Group</label>
+				<select name="group">
+						<option value="{{ $data.Role }}">{{ $data.Role }}</option>
+					{{ if eq $data.Role "users"}}
+						<option value="admin">admin</option>
+					{{ else if eq $data.Role "admin"}}
+						<option value="users">users</option>
+					{{ end }}
+				</select>0
+			</div>
+			<div class="formRow">
+				<label for="entryDate">Année d'inscription</label>
+				
+				<input name="entryDate" type="number" value="{{ $data.EntryDate }}" class="yearInput" required>
+			</div>
+			<div class="formRow">
+				<label for="belt">Ceinture</label>
+				<select name="belt">
+						<option value="{{ $data.Rank }}">{{ $data.Rank }}</option>
+					{{ range $belt := .BeltList}}
+						<option value="{{ $belt }}">{{ $belt }}</option>
+					{{ end }}
+				</select>
+			</div>
+			<div class="formRow">
+				<label for="rankObtained">Année d'obtention</label>
+				<input name="rankObtained" type="number" value="{{ $data.RankObtained }}" class="yearInput" required>
+			</div>
+			<div class="formRow radioInput">
+				<label for="medCert">Certificat Médical</label>
+				{{if eq false $data.MedCert}}
+				<input type="radio" name="medCert" value="false" checked>non fourni
+				{{ else }}
+				<input type="radio" name="medCert" value="false">non fourni
 				{{ end }}
-			</select>
-
-			<label for="rankObtained">Année d'obtention de la ceinture</label>
-			<input name="rankObtained" type="number" value="{{ $data.RankObtained }}" required>
-			
-			<label for="medCert">Certificat Médical</label>
-			{{if eq false $data.MedCert}}
-			<input type="radio" name="medCert" value="false" checked>non fourni<br>
-			{{ else }}
-			<input type="radio" name="medCert" value="false">non fourni<br>
-			{{ end }}
-			{{if eq true $data.MedCert}}
-			<input type="radio" name="medCert" value="true" checked>fourni<br>
-			{{ else }}
-			<input type="radio" name="medCert" value="true">fourni<br>
-			{{ end }}
-
-			<label for="licence">licence</label>
-			<input name="licence" type="text" value="{{ $data.Licence }}" required>
-
-			<button type="submit">Modifier</button>
+				{{if eq true $data.MedCert}}
+				<input type="radio" name="medCert" value="true" checked>fourni
+				{{ else }}
+				<input type="radio" name="medCert" value="true">fourni
+				{{ end }}
+			</div>
+			<div class="formRow licenceRow">
+				<label for="licence" class="licenceLabel">licence</label>
+				<input name="licence" type="text" value="{{ $data.Licence }}" required>
+			</div>
+			<button type="submit" class="btn btnSubmit">MODIFIER</button>
 		</form>
 	</div>
 	

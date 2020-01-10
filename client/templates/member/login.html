@@ -1,19 +1,21 @@
 {{ define "login"}}
 
 {{ template "header" . }}
+{{if eq .Message "" }}
+		<div class="error">{{.Message}}</div>
+	{{ end }}
 {{if ne .UserErr "" }}
 		<div class="error">{{.UserErr}}</div>
 	{{ end }}
-<main>
-	<div class="login">
-		<form action="/login?do=login" method="POST">
+	<div class="content login">
+		<form action="/login?do=login" method="POST" class="form loginForm">
 			<label for="identifier">Email</label>
 			<input name="identifier" type="text" required>
-
+			<br>
 			<label for="password">Mot de Passe</label>
 			<input name="password" type="password" required>
-
-			<button type="submit">Se connecter</button>
+			<br>
+			<button type="submit"  class="btn btnLogin">CONNEXION</button>
 		</form>
 	</div>
 {{ template "footer" . }}

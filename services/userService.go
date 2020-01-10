@@ -27,3 +27,7 @@ func UpdateUserProfile(u models.ClubUser) error {
 	fmt.Println("UpdateUserProfile no error")
 	return nil
 }
+
+// func CompRegister(id int) error {
+
+// }

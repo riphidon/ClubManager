@@ -30,7 +30,7 @@ import (
 // 	Id string
 // }
 
-var Id string
+var id string
 
 type AppHandler func(w http.ResponseWriter, r *http.Request) error
 type AuthHandler func(w http.ResponseWriter, r *http.Request) error
@@ -54,8 +54,10 @@ func (fn AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	value, err := utils.ReadCookieHandler(w, r)
 	if err != nil {
 		fmt.Printf("error reading cookie value: %v\n", err)
+		http.Redirect(w, r, "/login", http.StatusFound)
+		return
 	}
-	Id = value
+	id = value
 	if errCookie != nil || utils.CheckCookie(cookie, cookie.Value) == false {
 		fmt.Printf("error checkCookie: %v\n, %v\n", errCookie, utils.CheckCookie(cookie, cookie.Value))
 		http.Redirect(w, r, "/login", http.StatusFound)
@@ -67,6 +69,11 @@ func (fn AuthHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func favicoHandler(w http.ResponseWriter, r *http.Request) error {
+	http.Redirect(w, r, "/static/assets/images/logo.ico", http.StatusSeeOther)
+	return nil
+}
+
 //midleware for routes management
 func SetupRoutes(mux *http.ServeMux) {
 	mux.Handle("/static/", config.FileSystem)
@@ -75,6 +82,8 @@ func SetupRoutes(mux *http.ServeMux) {
 	mux.Handle("/login", AppHandler(LoginPage))
 	mux.Handle("/profile/", AuthHandler(ProfilePage))
 	mux.Handle("/admin/", AuthHandler(AdminSection))
+	mux.Handle("/compRegisteration", AuthHandler(CompRegisteration))
+	mux.Handle("/favicon.ico", AppHandler(favicoHandler))
 
 }
 

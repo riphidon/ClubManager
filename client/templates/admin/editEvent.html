@@ -1,0 +1,53 @@
+{{ define "editEvent" }}
+{{ template "adminHeader" . }}
+	<div class="eventForm">
+		{{ $event := .Event }}
+		<form action="/admin/event?do=update" method="POST" class="editForm editEvent" autocomplete="off">
+		<p class="back"><a href="/admin/event" class="btnBack"><img src="/static/assets/images/Back-512.png"></a></p>
+
+			<div class="formRow">
+				<input name="id" type="hidden" value="{{ $event.EventID }}">
+				<select name="type">
+					<option value="{{ $event.EventType }}">{{ $event.EventType }}</option>
+					{{ if eq $event.EventType "competition"}}
+					<option value="seminar">seminar</option>
+					<option value="social event">social event</option>
+					{{ else if eq $event.EventType "seminar"}}
+					<option value="competition">competition</option>
+					<option value="social event">social event</option>
+					{{ else if eq $event.EventType "social event"}}
+					<option value="competition">competition</option>
+					<option value="seminar">seminar</option>
+					{{ end }}
+				</select>
+			</div>
+			<div class="formRow">
+				<label for="date">Date : </label>
+				{{ $date := $event.EventDte.Format "02-01-2006"}}
+				<input name="date" type="text" value='{{ $date }}'>
+			</div>
+			<div class="formRow">
+				<label for="title">Title : </label>
+				<input name="title" type="text" value="{{ $event.EventTitle }}">
+			</div>
+			<div class="formRow">
+				<label for="organisation">Organisation : </label>
+				<input name="organisation" type="text" value="{{ $event.EventOrga }}">
+			</div>
+			<div class="formRow">
+				<label for="location">Location : </label>
+				<input name="location" type="text"value="{{ $event.EventLocation }}">
+			</div>
+			<div class="formRow">
+				<label for="description"  class="descr">Description : </label>
+				<textarea name="description" cols="30" rows="10">{{ $event.EventDescr }}</textarea>
+			</div>
+			<div class="formRow">
+				<label for="additionalInfo">Infos : </label>
+				<input name="additionalInfo" type="text" value="{{ $event.EventInfo }}">
+			</div>
+			<button type="submit" class="btn btnSubmit">EDIT</button>
+		</form>
+	</div>
+{{ template "adminFooter" . }}
+{{ end }}

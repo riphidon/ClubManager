@@ -2,45 +2,52 @@
 
 {{ template "header" . }}
 	{{ $member := .User}}
-	<div class="userEdit">
-			<form action="/profile/edituser?do=upd&q={{$member.UserID}}" method="POST">
-	
-				<label for="name">NOM</label>
-				<input name="name" type="text" value="{{ $member.Name }}" required>
-		
-				<label for="firstname">PRENOM</label>
-				<input name="firstname" type="text" value="{{ $member.Firstname }}" required>
-
-				<label for="entryDate">Année d'inscription au club</label>
-				<input name="entryDate" type="number" value="{{ $member.EntryDate }}" required>
-	
-				<label for="belt">Ceinture</label>
-				<select name="belt">
-						<option value="{{ $member.Rank }}">{{ $member.Rank }}</option>
-					{{ range $belt := .BeltList}}
-						<option value="{{ $belt }}">{{ $belt }}</option>
+	<div class="userEdit content">
+			<a  href="/profile" class="btnBack"><img src="/static/assets/images/Back-512.png"></a>
+			<form action="/profile/edituser?do=upd&q={{$member.UserID}}" method="POST" class="editForm">
+				<div class="formRow">
+					<label for="name">NOM</label>
+					<input name="name" type="text" value="{{ $member.Name }}" class="idInput" required>
+				</div>	
+				<div class="formRow">
+					<label for="firstname">PRENOM</label>
+					<input name="firstname" type="text" value="{{ $member.Firstname }}" class="idInput" required>
+				</div>
+				<div class="formRow">
+					<label for="entryDate">Année d'inscription</label>
+					<input name="entryDate" type="number" value="{{ $member.EntryDate }}" class="yearInput" required>
+				</div>
+				<div class="formRow">
+					<label for="belt">Ceinture</label>
+					<select name="belt">
+							<option value="{{ $member.Rank }}">{{ $member.Rank }}</option>
+						{{ range $belt := .BeltList}}
+							<option value="{{ $belt }}">{{ $belt }}</option>
+						{{ end }}
+					</select>
+				</div>
+				<div class="formRow">
+					<label for="rankObtained">Année d'obtention</label>
+					<input name="rankObtained" type="number" value="{{ $member.RankObtained }}" class="yearInput" required>
+				</div>
+				<div class="formRow radioInput">
+					<label for="medCert">Certificat Médical</label>
+					{{if eq false $member.MedCert}}
+					<input type="radio" name="medCert" value="false" checked>non fourni<br>
+					{{ else }}
+					<input type="radio" name="medCert" value="false">non fourni<br>
 					{{ end }}
-				</select>
-
-				<label for="rankObtained">Année d'obtention de la ceinture</label>
-				<input name="rankObtained" type="number" value="{{ $member.RankObtained }}" required>
-				
-				<label for="medCert">Certificat Médical</label>
-				{{if eq false $member.MedCert}}
-				<input type="radio" name="medCert" value="false" checked>non fourni<br>
-				{{ else }}
-				<input type="radio" name="medCert" value="false">non fourni<br>
-				{{ end }}
-				{{if eq true $member.MedCert}}
-				<input type="radio" name="medCert" value="true" checked>fourni<br>
-				{{ else }}
-				<input type="radio" name="medCert" value="true">fourni<br>
-				{{ end }}
-	
-				<label for="licence">licence</label>
-				<input name="licence" type="text" value="{{ $member.Licence }}" required>
-	
-				<button type="submit">Modifier</button>
+					{{if eq true $member.MedCert}}
+					<input type="radio" name="medCert" value="true" checked>fourni<br>
+					{{ else }}
+					<input type="radio" name="medCert" value="true" >fourni<br>
+					{{ end }}
+				</div>
+				<div class="formRow licenceRow">
+					<label for="licence" class="licenceLabel">licence</label>
+					<input name="licence" type="text" value="{{ $member.Licence }}" class="licenceInput" required>
+				</div>
+				<button type="submit" class="btn btnSubmit">MODIFIER</button>
 			</form>
 		</div>
 {{ template "footer" . }}

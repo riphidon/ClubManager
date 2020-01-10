@@ -17,6 +17,21 @@ func ViewBeltList() []string {
 	return belts
 }
 
+func ViewWeightList() []string {
+	weights, err := db.WeightList()
+	if err != nil {
+		fmt.Printf("error occured: %v\n", err)
+	}
+	return weights
+}
+
+func ViewAgeList() []string {
+	ages, err := db.AgeList()
+	if err != nil {
+		fmt.Printf("error occured: %v\n", err)
+	}
+	return ages
+}
 func ViewUserData(r *http.Request, data string, group string) models.ClubUser {
 	id := data
 	ID, _ := strconv.Atoi(id)

@@ -1,0 +1,49 @@
+{{ define "compRegisteration"}}
+
+{{ template "header" . }}
+	<div class="compRegisteration">
+			{{ $member := .User}}
+			<h2>{{ .EventTitle }}</h2>
+		<form action="" method="POST" class="competition">
+			<div class="formRow">
+				<label for="name">NOM</label>
+				<input name="name" type="text" value="{{ $member.Name }}" class="idInput" readonly>
+			</div>	
+			<div class="formRow">
+				<label for="firstname">PRENOM</label>
+				<input name="firstname" type="text" value="{{ $member.Firstname }}" class="idInput" readonly>
+			</div>
+			<div class="formRow">
+					<label for="rank">Ceinture</label>
+					<input name="rank" type="text" value="{{ $member.Rank }}" readonly>
+				</div>
+			<div class="formRow">
+				<label for="weightClass">Catégorie Poids</label>
+				<select name="weightClass">
+					{{ range $weight := .WeightList}}
+						<option value="{{ $weight }}">{{ $weight }}</option>
+					{{ end }}
+				</select>
+			</div>
+			<div class="formRow">
+					<label for="AgeClass">Catégorie Age</label>
+					<select name="AgeClass">
+						{{ range $age := .AgeList}}
+							<option value="{{ $age }}">{{ $age }}</option>
+						{{ end }}
+					</select>
+				</div>
+			<div class="formRow radioInput">
+				<label for="medCert">Certificat Médical</label>
+				<input type="radio" name="medCert" value="true">ok<br>
+				<input type="radio" name="medCert" value="false">à faire<br>
+			</div>
+			<div class="formRow licenceRow">
+				<label for="licence" class="licenceLabel">licence</label>
+				<input name="licence" type="text" value="{{ $member.Licence }}" class="licenceInput" readonly>
+			</div>
+			<button type="submit" class="btn btnSubmit">S'INSCRIRE</button>
+		</form>
+	</div>
+{{ template "footer" . }}
+{{ end }}

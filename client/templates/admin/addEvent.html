@@ -1,0 +1,42 @@
+{{ define "addEvent" }}
+{{ template "adminHeader" . }}
+<div class="eventForm">
+	<form action="/admin/event?do=add" method="POST" class="editForm addEvent" autocomplete="off">
+		<p class="back"><a href="/admin/event" class="btnBack"><img src="/static/assets/images/Back-512.png"></a></p>
+
+		<div class="formRow">
+			<select name="type">
+				<option value="competition">competition</option>
+				<option value="seminar">seminar</option>
+				<option value="social event">social event</option>
+			</select>
+		</div>
+		<div class="formRow">
+			<label for="date">Date : </label>
+			<input name="date" type="date">
+		</div>
+		<div class="formRow">
+			<label for="title">Title : </label>
+			<input name="title" type="text">
+		</div>
+		<div class="formRow">
+			<label for="organisation">Organisation : </label>
+			<input name="organisation" type="text">
+		</div>
+		<div class="formRow">
+			<label for="location">Location : </label>
+			<input name="location" type="text">
+		</div>
+		<div class="formRow">
+			<label for="description">Description : </label>
+			<textarea name="description" cols="30" rows="10"></textarea>
+		</div>
+		<div class="formRow">
+			<label for="additionalInfo">Infos : </label>
+			<input name="additionalInfo" type="text">
+		</div>
+		<button type="submit" class="btn btnSubmit">CREATE</button>
+	</form>
+</div>
+{{ template "adminFooter" . }}
+{{ end }}

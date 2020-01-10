@@ -6,17 +6,27 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="/static/assets/CSS/style.css">
 	<title id="pageTitle">{{ .Title }}</title>
 </head>
 <body>
 	<div class="wrapper">
 		<header>
-			<h1>Club Manager</h1>
-			<nav>
+			<div class="banner">
+					<img class="logo" src="/static/assets/images/logo.png" alt="logo Aranaha">
+					<h1 class="mainTitle">ACADEMY</h1> 
+			</div>
+			<nav class="menu">
+				{{ if eq .LogState false }}
 				<a href="/register" class="nav-links" id="register">Register</a>
 				<a href="/login" class="nav-links" id="login">Login</a>
-				<a href="/login?do=logout" id="logout">Logout</a>
+				{{ end }}
+				{{ if eq .LogState true }}
+				<a href="/profile" class="nav-links" id="profile">Profile</a>
+				<a href="/login?do=logout" class="nav-links" id="logout">Logout</a>
+				{{ end }}
 				<a href="/home" class="nav-links" id="home">Home</a>
+				
 			</nav>
 		</header>
 	

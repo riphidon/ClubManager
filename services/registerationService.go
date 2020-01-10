@@ -10,14 +10,17 @@ import (
 
 func NewUser(name, firstname, email, password, belt string) models.ClubUser {
 	return models.ClubUser{
-		Name:      name,
-		Firstname: firstname,
-		Email:     email,
-		Hash:      password,
-		Rank:      belt,
-		Role:      "user",
-		MedCert:   false,
-		CreatedOn: time.Now().AddDate(0, 0, 0),
+		Name:         name,
+		Firstname:    firstname,
+		Email:        email,
+		Hash:         password,
+		Rank:         belt,
+		RankObtained: 0,
+		Role:         "user",
+		MedCert:      false,
+		EntryDate:    0,
+		Licence:      "",
+		CreatedOn:    time.Now().AddDate(0, 0, 0),
 	}
 }
 

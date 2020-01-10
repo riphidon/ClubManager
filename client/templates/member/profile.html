@@ -2,39 +2,39 @@
 
 {{ template "header" . }}
 	{{ $member := .User}}
-	<div class="profile">
-		<table>
+	<div class="content profile">
+		<table class="tblProfile">
 			<thead>
 				<tr><th colspan="2"> {{ $member.Firstname }} {{ $member.Name }} </th></tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td class="belt">Ceinture: </td>
-					<td class="beltColor">{{ $member.Rank }}</td>
+					<td class="belt tdLabel">Ceinture </td>
+					<td class="beltColor tdValue">{{ $member.Rank }}</td>
 				</tr>
 				<tr>
-					<td class="rankObtained">Année d'obtention: </td>
-					<td class="rankObtained">{{ $member.RankObtained}}</td>
+					<td class="rankObtained tdLabel">Année d'obtention </td>
+					<td class="rankObtained tdValue">{{ $member.RankObtained}}</td>
 				</tr>
 				<tr>
-					<td class="licence">Numéro de licence</td>
-					<td class="licenceNumber">{{ $member.Licence }}</td>
+					<td class="licence tdLabel">Numéro de licence</td>
+					<td class="licenceNumber tdValue">{{ $member.Licence }}</td>
 				</tr>
 				<tr>
-					<td class="cert">Certificat Médical</td>
+					<td class="cert tdLabel">Certificat Médical</td>
 					{{ if eq $member.MedCert false}}
-					<td class="certBool">Non fourni</td>
+					<td class="certBool tdValue">Non fourni</td>
 					{{ else }}
-					<td class="certBool">Fourni</td>
+					<td class="certBool tdValue">Fourni</td>
 					{{ end }}
 				</tr>
 				<tr>
-					<td class="inscription">Année d'inscription</td>
-					<td class="inscriptionYear">{{ $member.EntryDate }}</td>
+					<td class="inscription tdLabel">Année d'inscription</td>
+					<td class="inscriptionYear tdValue">{{ $member.EntryDate }}</td>
 				</tr>
 			</tbody>
 		</table>
-		<a href="/profile/user?do=edit">Edit Profile</a>
+		<a href="/profile/user?do=edit" class="btn btnEdit">EDITER</a>
 	</div>
 {{ template "footer" . }}
 

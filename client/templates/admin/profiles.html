@@ -1,37 +1,51 @@
 {{ define "profiles"}}
 
 {{ template "adminHeader" . }}
-	<div class="memberProfile">
-		<h1>PROFILES</h1>
-		<div class="searchSelector">
-			<form action="/admin/profiles?do=search" method="POST">
-				<label for="userSelector">Select : </label>
-				<input name="userSelector" type="radio" value="list">from the list
-				<select name="userRow">
-					<option >select user</option>
-						{{ range $list := .UserList }}	
-								{{ $id := $list.UserID}}
-								<option value="{{ $id }}">
-									{{ $list.Name }} 
-									{{ $list.Firstname }} 
-									{{ $list.Rank }} 
-								 	
-								</option>
+	<div class="content memberProfile">
+		<div class="profileBar">
+			<h2 class="pageTitle">-PROFILES-</h2>
+			<div class="searchSelector">
+				<form action="/admin/profiles?do=search" method="POST" class="searchForm">
+					<label for="userSelector" class="searchTitle">SELECT:</label>
+					<br>
+					<div class="byName">
+						<input name="userSelector" type="radio" value="list">
+						<label for="userRow">By name</label>
+					</div>
+
+					<select name="userRow">
+						<option>select user</option>
+							{{ range $list := .UserList }}	
+									{{ $id := $list.UserID}}
+									<option value="{{ $id }}">
+										{{ $list.Name }} 
+										{{ $list.Firstname }} 
+										{{ $list.Rank }} 
+									
+									</option>
+							{{ end }}
+					</select>
+					<br>
+					<div class="byRank">
+						<input name="userSelector" type="radio" value="rank">
+						<label for="belt">By rank</label>
+					</div>
+					<select name="belt">
+							<option>select rank</option>
+						{{ range $belt := .BeltList}}
+							<option value="{{ $belt }}">{{ $belt }}</option>
 						{{ end }}
-				</select>
-				<input name="userSelector" type="radio" value="rank"> by rank
-				<select name="belt">
-					{{ range $belt := .BeltList}}
-						<option value="{{ $belt }}">{{ $belt }}</option>
-					{{ end }}
-				</select>
-				<button type="submit" >Search</button>
-			</form>
+					</select>
+					<br>
+					<button type="submit" class="btn btnSubmit">SEARCH</button>
+				</form>
+			</div>
 		</div>
 
-		<div class="rankByList">
+		{{if ne (len .ListByParam) 0}}
+		<div class="rankList">
 			{{ range $pList := .ListByParam}}
-			<a href="/admin/profiles?do=update&n={{ $pList.UserID }}"> 
+			<a href="/admin/profiles?do=edit&n={{ $pList.UserID }}"> 
 				{{ $pList.Rank }}
 				{{ $pList.Name}}
 				{{ $pList.Firstname}} 
@@ -45,11 +59,12 @@
 			</a><br>
 			{{ end }}
 		</div>
+		{{ end }}
 
 		{{if ne .UserProfile.UserID 0}}
-		<div class="profile">
+		<div class="user">
 			{{ $profile := .UserProfile }}
-			<a href="/admin/profiles?do=update&n={{ $profile.UserID }}">
+			<a href="/admin/profiles?do=edit&n={{ $profile.UserID }}">
 				{{ $profile.Rank }} 
 				{{ $profile.Name}}
 				{{ $profile.Firstname}} 
@@ -58,7 +73,8 @@
 				{{ else }}
 				certificate ok 
 				{{ end }}
-				{{ $profile.Licence}}</a>
+				{{ $profile.Licence}}
+			</a>
 		</div>
 		{{ end }}
 	

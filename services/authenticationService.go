@@ -47,7 +47,7 @@ func RedirectOnLogin(email string, w http.ResponseWriter, r *http.Request) error
 	group := cred.Group
 	id := cred.ID
 	utils.SetCookieHandler(w, r, id)
-	if group == "users" {
+	if group == "user" {
 		http.Redirect(w, r, "/profile", http.StatusFound)
 		return nil
 	}
